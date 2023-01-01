@@ -1,14 +1,17 @@
+
+
 <?php
+include 'conn.php';
+$kdtok= $_POST['store_id'];
+$queryResult=$connect->query('SELECT * FROM menu WHERE Kode_Toko = "'.$kdtok.'"');
 
-require_once './conn.php';
+$result=array();
 
-$store_id = $_GET['store_id'] ?? null;
-$method = $_SERVER['REQUEST_METHOD'];
-header('Content-Type: application/json');
+while($fetchData = $queryResult->fetch_assoc()) {
+    $result[] = $fetchData;
+}
 
-switch ($method) {
-    case 'GET':
-        $stores = $connect->query('SELECT * FROM menu')->fetch_all(MYSQLI_ASSOC);
-        echo json_encode($stores);
-        break;
-    }
+echo json_encode($result);
+
+
+?>
